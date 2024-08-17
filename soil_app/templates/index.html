@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soil Fertility Analyzer</title>
+
+    <!-- Linking Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Linking Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('https://images.squarespace-cdn.com/content/v1/54fbb611e4b0d7c1e151d22a/1493768157599-B8RYXE3FIIDB84KCTFYV/image-asset.jpeg') center/cover,
+                url('https://miro.medium.com/v2/resize:fit:1200/0*6GKRH-JVBAScfspU.') center/cover;
+            background-attachment: fixed;
+            height: 100vh;
+            overflow-y: scroll;
+            color: #fff;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            width: 100%;
+            z-index: 1;
+            transition: background-color 0.5s ease;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            margin-top: 0;
+            color: #fff;
+        }
+
+        .intro-section {
+            text-align: center;
+            padding: 150px 20px 20px;
+           
+        }
+
+        .intro-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .intro-section p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .image-section {
+            text-align: center;
+            padding: 120px 20px;
+        }
+
+        label {
+            font-size: 1.5rem;
+            color: #fff;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        input {
+            padding: 15px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #fff;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .analyze-btn {
+            padding: 15px;
+            border: none;
+            background-color: #4CAF50; /* Green color */
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            outline: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .analyze-btn:hover {
+            background-color: #45a049; /* Darker green color on hover */
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Soil Fertility Analyzer</h1>
+    </header>
+
+    <!-- Introduction Section -->
+    <div class="intro-section">
+        <h2>Welcome to our Soil Fertility Analyzer</h2>
+        <p>Discover how our analyzer works and gain insights into soil fertility.</p>
+    </div>
+
+    <!-- Image Section -->
+    <div class="image-section">
+        <label for="imageInput">Select Image:</label>
+        <input type="file" id="imageInput" accept="image/*">
+
+        <button class="analyze-btn" onclick="analyzeImage()">Analyze</button>
+    </div>
+
+    <script>
+        function analyzeImage() {
+            // Get the selected image file
+            var input = document.getElementById('imageInput');
+            var file = input.files[0];
+    
+            // Create a FormData object and append the file to it
+            var formData = new FormData();
+            formData.append('file', file);
+    
+            // Use Ajax to send the file to the Flask server
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Update the result section with the server's response
+                    document.getElementById('result').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send(formData);
+        }
+    </script>
+    
+    <!-- Add a button to trigger the analyzeImage function -->
+    <button onclick="analyzeImage()">Analyze</button>
+    
+    <!-- Add a section to display the analysis result -->
+    <div id="result"></div>
+
+</body>
+</html>
